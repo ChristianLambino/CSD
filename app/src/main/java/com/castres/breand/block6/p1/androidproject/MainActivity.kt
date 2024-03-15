@@ -104,9 +104,9 @@
         }
 
         private fun addDataToComponentsList() {
-            componentsList.add(ComponentsItems(R.drawable.csd_logo, "Item1", "", 123.0, "GPU", "LOREM"))
-            componentsList.add(ComponentsItems(R.drawable.csd_logo, "Item2", "", 123.0, "GPU", "LOREM"))
-            componentsList.add(ComponentsItems(R.drawable.csd_logo, "Item3", "", 123.0, "GPU", "LOREM"))
+            componentsList.add(ComponentsItems("GPU", 1, "", "", "30"))
+            componentsList.add(ComponentsItems("GPU", 2, "", "", "30"))
+            componentsList.add(ComponentsItems("GPU", 3, "", "", "30"))
             // Add more items as needed
         }
 

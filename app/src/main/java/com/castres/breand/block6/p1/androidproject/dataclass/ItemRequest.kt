@@ -6,15 +6,13 @@ data class ItemRequest(
     var id: Int?,
     var prod_name: String,
     var image: String, // Change the type to String
-    var price: Double,
+    var price: String,
     var category: String,
     var description: String,
-    var componentsAddToCart: Int
 )
 
 data class ItemResponse(
-    val components: ComponentsItems,
-    val token: Token// Change the type to String or whatever type your token is
+    val components: ComponentsItems
 )
 
 

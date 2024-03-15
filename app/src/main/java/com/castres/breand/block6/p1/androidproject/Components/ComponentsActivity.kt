@@ -16,7 +16,6 @@ import com.castres.breand.block6.p1.androidproject.databinding.ActivityComponent
 class ComponentsActivity : AppCompatActivity(), ComponentsClickListener {
     private lateinit var binding: ActivityComponentsBinding
     private lateinit var api: API
-    private val componentsList: MutableLiveData<List<ComponentsItems>> = MutableLiveData()
     private lateinit var componentsAdapter: ComponentsAdapter
     private lateinit var viewModel: ComponentsViewModel
 
@@ -29,34 +28,26 @@ class ComponentsActivity : AppCompatActivity(), ComponentsClickListener {
         api = RetrofitInstance.FetchComp(this)
 
         // Initialize ViewModel
-        viewModel = ViewModelProvider(this, ComponentViewModelFactory(repository = ComponentRepository(api))).get(
-            ComponentsViewModel::class.java)
-
-        // Create a new mutable list and assign it to componentsList.value
-        val componentsList: MutableLiveData<MutableList<ComponentsItems>> = MutableLiveData()
+        viewModel = ViewModelProvider(this, ComponentViewModelFactory(repository = ComponentRepository(api)))
+            .get(ComponentsViewModel::class.java)
 
         // Initialize ComponentsAdapter with an empty list
-        componentsAdapter = ComponentsAdapter(componentsList.value ?: mutableListOf(), this)
+        componentsAdapter = ComponentsAdapter(mutableListOf(), this)
 
         // Set up RecyclerView
-        binding.componentsRV.layoutManager = GridLayoutManager(this, 3)
+        binding.componentsRV.layoutManager = GridLayoutManager(this, 2)
         binding.componentsRV.adapter = componentsAdapter
+
+        binding.componentsRVtwo.layoutManager = GridLayoutManager(this, 2)
+        binding.componentsRVtwo.adapter = componentsAdapter
+
 
         // Observe ViewModel
         observeViewModel()
 
         // Populate the componentsList
         fetchComponents()
-
-        val repository = ComponentRepository(api)
-        viewModel = ViewModelProvider(this, ComponentViewModelFactory(repository))
-            .get(ComponentsViewModel::class.java)
-
-        viewModel.getComponent()
     }
-
-
-// Inside ComponentsActivity class
 
     private fun fetchComponents() {
         viewModel.getComponent()
@@ -82,13 +73,10 @@ class ComponentsActivity : AppCompatActivity(), ComponentsClickListener {
 
     override fun onClick(componentsItems: ComponentsItems) {
         val intent = Intent(applicationContext, ComponentsDetailActivity::class.java)
-        intent.putExtra(COMPONENTS_ID_EXTRA, componentsItems.id ?: -1) // Pass -1 if id is null
+        intent.putExtra(COMPONENTS_ID_EXTRA, componentsItems.id ?: -1)
         startActivity(intent)
     }
-
 }
-
-
 
 
 

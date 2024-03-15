@@ -20,8 +20,6 @@ class ComponentsViewModel(private val componentRepository: ComponentRepository) 
 
 
 
-// Inside ComponentsViewModel class
-
     fun getComponent() {
         job = viewModelScope.launch {
             loading.value = true
@@ -45,10 +43,7 @@ class ComponentsViewModel(private val componentRepository: ComponentRepository) 
         }
     }
 
-
-
     fun onError(message: String) {
-        // Update LiveData from the main thread
         viewModelScope.launch {
             errorMessage.value = message
             loading.value = false

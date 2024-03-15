@@ -1,5 +1,6 @@
 package com.castres.breand.block6.p1.androidproject.data.model.modeling
 
+import com.castres.breand.block6.p1.androidproject.Components.ComponentsDetailItems
 import com.castres.breand.block6.p1.androidproject.Components.ComponentsItems
 import com.castres.breand.block6.p1.androidproject.dataclass.EmailCheckRequest
 import com.castres.breand.block6.p1.androidproject.dataclass.ItemRequest
@@ -31,7 +32,8 @@ interface API {
 
     @Headers("Accept: application/json")
     @GET("/components")
-    suspend fun getComponentDetails(): Response<List<ComponentsItems>>
+    suspend fun getComponentDetails(): Response<ComponentsDetailItems>
+
 
 
     @Headers("Accept: application/json")

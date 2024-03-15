@@ -2,6 +2,7 @@ package com.castres.breand.block6.p1.androidproject.Components
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +32,8 @@ class ComponentsDetailActivity : AppCompatActivity() {
 
         // Fetch component details using the ID
         fetchComponentDetails()
+
+
     }
 
     private fun fetchComponentDetails() {
@@ -41,8 +44,8 @@ class ComponentsDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val component = response.body()
                     component?.let {
-                        // Display component details
-                       // displayComponentDetails(components)
+                            displayComponentDetails(component)
+
                     }
                 } else {
                     // Handle unsuccessful response
@@ -63,9 +66,8 @@ class ComponentsDetailActivity : AppCompatActivity() {
         binding.componentsDetailItemName.text = component.prod_name
         binding.componentsDetailPrice.text = component.price.toString()
         binding.componentsDetailDescription.text = component.description
-        binding.componentsDetailADC.setImageResource(component.componentsAddToCart)
+        binding.componentsDetailADC
 
-        // Redirects to add to cart activity
         binding.componentsDetailADC.setOnClickListener {
             addToCart(component)
         }
@@ -73,13 +75,12 @@ class ComponentsDetailActivity : AppCompatActivity() {
 
     private fun addToCart(component: ComponentsDetailItems) {
         val itemRequest = ItemRequest(
-            prod_name = component.prod_name,
-            description = component.description,
-            price = component.price,
-            image = component.image, // Assuming component.image is a URL or a string representing an image resource
-            category = component.category,
-            id = component.id,
-            componentsAddToCart = component.componentsAddToCart
+            prod_name = component.prod_name ?: "",
+            description = component.description ?: "",
+            price = component.price ?: "0",
+            image = component.image ?: "",
+            category = component.category ?: "",
+            id = component.id ?: -1
         )
 
         lifecycleScope.launch {
@@ -88,13 +89,14 @@ class ComponentsDetailActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     redirectToCart()
                 } else {
-                    // Handle unsuccessful response
+                    Log.e("ComponentDetailActivity", "Add to Cart Failed: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
-                // Handle failure
+                Log.e("ComponentDetailActivity", "Error fetching Component", e)
             }
         }
     }
+
 
 
     fun redirectToCart(view: View? = null) {
