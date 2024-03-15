@@ -59,8 +59,10 @@ class LogInActivity : AppCompatActivity() {
             if (enteredEmail.isEmpty() || enteredPassword.isEmpty()) {
                 Toast.makeText(this, "Email or Password is empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else {
-                // Assign values to email and password properties
+            }
+
+
+            else {
                 email = enteredEmail
                 password = enteredPassword
                 // Perform login operation
@@ -71,10 +73,10 @@ class LogInActivity : AppCompatActivity() {
 
     private fun loginUser() { val API = RetrofitInstance.getAPI(this)
         val loginRequest = LoginRequest(email, password)
-
-                lifecycleScope.launch {
+        lifecycleScope.launch {
             try {
                 val response = API.login(loginRequest)
+
                 if (response.isSuccessful && response.body() != null) {
                     val userResponse = response.body()!!
                     // Handle successful login here, e.g., navigate to another activity
@@ -89,11 +91,13 @@ class LogInActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish() // Optional: if you don't want users to return to the login screen when pressing back
 
-                } else {
+                }
+
+                else {
                     // Handle login failure, e.g., show error message
                     Log.e("LoginActivity", "Login failed: ${response.errorBody()?.string()}")
                     runOnUiThread {
-                        Toast.makeText(this@LogInActivity, "ERROR", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LogInActivity, "Login Error", Toast.LENGTH_SHORT).show()
                     }
 
                 }

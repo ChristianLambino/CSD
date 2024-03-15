@@ -30,7 +30,7 @@ interface API {
     suspend fun checkEmail(@Query("email") emailCheckRequest: EmailCheckRequest): Response<UserResponse>
 
     @Headers("Accept: application/json")
-    @GET("components")
+    @GET("/components")
     suspend fun getComponentDetails(): Response<List<ComponentsItems>>
 
 
